@@ -15,4 +15,5 @@ func Execute() {
 
 func init() {
 	rootCmd.AddCommand(backupCmd)
+	rootCmd.AddCommand(daemonCmd)
 }

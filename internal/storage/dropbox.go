@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/dnagikh/gockuper-cli/internal/auth"
 	"github.com/dnagikh/gockuper-cli/internal/logger"
 	"github.com/spf13/viper"
 	"io"
@@ -18,10 +19,14 @@ var (
 	deleteUrl    = "https://api.dropboxapi.com/2/files/delete_v2"
 )
 
-type Dropbox struct{}
+type Dropbox struct {
+	tokenProvider *auth.DropboxTokenProvider
+}
 
-func NewDropbox() *Dropbox {
-	return &Dropbox{}
+func NewDropbox(provider *auth.DropboxTokenProvider) *Dropbox {
+	return &Dropbox{
+		tokenProvider: provider,
+	}
 }
 
 func (d *Dropbox) Upload(file io.Reader, filename string) error {
@@ -40,7 +45,8 @@ func (d *Dropbox) Upload(file io.Reader, filename string) error {
 	if err != nil {
 		return fmt.Errorf("could not create request: %w", err)
 	}
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", viper.GetString("DROPBOX_API_TOKEN")))
+	token := d.tokenProvider.AccessToken()
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
 	req.Header.Set("Dropbox-API-Arg", fmt.Sprintf(`{"path": "%s%s"}`, viper.GetString("STORAGE_FILE_PATH"), filename))
 	req.Header.Set("Content-Type", "application/octet-stream")
 
@@ -74,7 +80,7 @@ func (d *Dropbox) ListFiles(folder string) ([]StoredFile, error) {
 		folder = ""
 	}
 	reqBody := fmt.Sprintf(`{"path": "%s"}`, folder)
-	resp, err := doDropboxRequest(listFilesUrl, reqBody)
+	resp, err := doDropboxRequest(listFilesUrl, reqBody, d.tokenProvider.AccessToken())
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +114,7 @@ func (d *Dropbox) ListFiles(folder string) ([]StoredFile, error) {
 
 func (d *Dropbox) Delete(filename string) error {
 	fullPath := fmt.Sprintf(`{"path": "%s%s"}`, viper.GetString("STORAGE_FILE_PATH"), filename)
-	resp, err := doDropboxRequest(deleteUrl, fullPath)
+	resp, err := doDropboxRequest(deleteUrl, fullPath, d.tokenProvider.AccessToken())
 	if err != nil {
 		return err
 	}
@@ -117,13 +123,13 @@ func (d *Dropbox) Delete(filename string) error {
 	return nil
 }
 
-func doDropboxRequest(url, body string) (*http.Response, error) {
+func doDropboxRequest(url, body, token string) (*http.Response, error) {
 	req, err := http.NewRequest("POST", url, bytes.NewBufferString(body))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
-	req.Header.Set("Authorization", "Bearer "+viper.GetString("DROPBOX_API_TOKEN"))
+	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)

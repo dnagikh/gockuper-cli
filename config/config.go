@@ -7,18 +7,19 @@ import (
 )
 
 var defaults = map[string]interface{}{
-	"DB_TYPE":           "postgres",
-	"STORAGE_TYPE":      "dropbox",
-	"LOG_NAME":          "./gockuper.log",
-	"LOG_MAX_SIZE":      50, // MB
-	"LOG_MAX_BACKUPS":   3,
-	"LOG_MAX_AGE":       90, // Days
-	"LOG_COMPRESSION":   true,
-	"LOG_LEVEL":         "info",
-	"LOG_TARGET":        "stdout",
-	"STORAGE_FILE_PATH": "/",
-	"COMPRESS":          "none",
-	"MAX_BACKUPS":       10,
+	"DB_TYPE":            "postgres",
+	"STORAGE_TYPE":       "dropbox",
+	"LOG_NAME":           "./gockuper.log",
+	"LOG_MAX_SIZE":       50, // MB
+	"LOG_MAX_BACKUPS":    3,
+	"LOG_MAX_AGE":        90, // Days
+	"LOG_COMPRESSION":    true,
+	"LOG_LEVEL":          "info",
+	"LOG_TARGET":         "stdout",
+	"STORAGE_FILE_PATH":  "/",
+	"COMPRESS":           "none",
+	"MAX_BACKUPS":        10,
+	"DROPBOX_TOKEN_FILE": "./",
 }
 
 func LoadConfig() error {

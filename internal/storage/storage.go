@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"github.com/dnagikh/gockuper-cli/internal/auth"
 	"github.com/spf13/viper"
 	"io"
 	"regexp"
@@ -17,7 +18,14 @@ type Storage interface {
 func NewStorage() (Storage, error) {
 	switch viper.GetString("STORAGE_TYPE") {
 	case "dropbox":
-		return NewDropbox(), nil
+		clientId := viper.GetString("DROPBOX_CLIENT_ID")
+		clientSecret := viper.GetString("DROPBOX_CLIENT_SECRET")
+		provider, err := auth.NewDropboxTokenProvider(clientId, clientSecret)
+		if err != nil {
+			return nil, fmt.Errorf("could not create Dropbox token provider: %w", err)
+		}
+
+		return NewDropbox(provider), nil
 	case "file":
 		return NewFileStorage(), nil
 	default:

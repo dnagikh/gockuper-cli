@@ -3,6 +3,8 @@ BUILD_DIR=build
 GOOS_LINUX=linux
 GOARCH_AMD64=amd64
 
+.PHONY: build test lint release
+
 build:
 	@echo "🚀 Building $(APP_NAME) for $(GOOS)/$(GOARCH)..."
 	@mkdir -p $(BUILD_DIR)
