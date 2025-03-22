@@ -4,5 +4,5 @@ import "context"
 
 type NoopRefresher struct{}
 
-func (NoopRefresher) StartBackgroundRefresh(ctx context.Context) {
+func (NoopRefresher) StartBackgroundRefresh(_ context.Context) {
 }

@@ -59,7 +59,7 @@ func (p *DropboxTokenProvider) AccessToken() string {
 
 func (p *DropboxTokenProvider) StartBackgroundRefresh(ctx context.Context) {
 	go func() {
-		ticker := time.NewTicker(20 * time.Second)
+		ticker := time.NewTicker(10 * time.Minute)
 		defer ticker.Stop()
 
 		for {

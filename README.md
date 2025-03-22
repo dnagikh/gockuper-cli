@@ -196,8 +196,7 @@ In response, you will get:
 {
   "access_token": "...",
   "expires_in": 14400,
-  "refresh_token": "...",
-  ...
+  "refresh_token": "..."
 }
 ```
 
