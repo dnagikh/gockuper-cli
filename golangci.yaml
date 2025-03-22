@@ -1,0 +1,29 @@
+run:
+  timeout: 2m
+  tests: true
+
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - errcheck
+    - gosimple
+    - unused
+    - structcheck
+    - typecheck
+    - deadcode
+    - revive
+    - gofmt
+    - goimports
+    - depguard
+    - ineffassign
+    - gocritic
+
+issues:
+  exclude-use-default: false
+
+gofmt:
+  simplify: true
+
+output:
+  sort-results: true

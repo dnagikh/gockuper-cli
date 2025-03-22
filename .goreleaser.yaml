@@ -1,0 +1,29 @@
+project_name: gockuper-cli
+builds:
+  - main: ./main.go
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    files:
+      - LICENSE
+      - README.md
+
+release:
+  github:
+    name: gockuper-cli
+
+changelog:
+  sort: desc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
