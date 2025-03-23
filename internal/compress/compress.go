@@ -30,12 +30,14 @@ func Compress(reader io.Reader, c Compressor) (io.Reader, error) {
 		writer, err := c.WrapWriter(pw)
 		if err != nil {
 			pw.CloseWithError(fmt.Errorf("could not compress pg_dump: %w", err))
+			return
 		}
 		defer writer.Close()
 
 		_, err = io.Copy(writer, reader)
 		if err != nil {
 			pw.CloseWithError(fmt.Errorf("could not compress pg_dump: %w", err))
+			return
 		}
 	}()
 
