@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+---
+version: '3'
+
+description: Gockuper CLI Taskfile
+
+vars:
+  BINARY_NAME: gockuper-cli
+  BUILD_DIR: build
+  GOFILES:
+    sh: find . -type f -name '*.go' -not -path './vendor/*'
+
+env:
+  CGO_ENABLED: '0'
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+    silent: true
+
+  deps:
+    desc: Install development dependencies
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+      - go install github.com/go-task/task/v3/cmd/task@latest
+
+  tidy:
+    desc: Run go mod tidy
+    cmds:
+      - go mod tidy
+
+  build:
+    desc: Build binary for current OS
+    deps: [tidy]
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}
+      - go build -o {{.BUILD_DIR}}/{{.BINARY_NAME}} .
+
+  build:linux:
+    desc: Build binary for Linux x86_64
+    deps: [tidy]
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}/linux
+      - GOOS=linux GOARCH=amd64 go build -o {{.BUILD_DIR}}/linux/{{.BINARY_NAME}} .
+
+  build:darwin:
+    desc: Build binary for macOS
+    deps: [tidy]
+    cmds:
+      - mkdir -p {{.BUILD_DIR}}/darwin
+      - GOOS=darwin GOARCH=amd64 go build -o {{.BUILD_DIR}}/darwin/{{.BINARY_NAME}} .
+
+  install:
+    desc: Install binary locally
+    deps: [tidy]
+    cmds:
+      - go install .
+
+  run:
+    desc: Run the CLI with arguments
+    deps: [build]
+    cmds:
+      - ./{{.BUILD_DIR}}/{{.BINARY_NAME}} {{.CLI_ARGS}}
+
+  test:
+    desc: Run tests with verbose output
+    cmds:
+      - go test -v ./...
+
+  test:cover:
+    desc: Run tests with coverage report
+    cmds:
+      - go test -coverprofile=coverage.out ./...
+      - go tool cover -func=coverage.out
+
+  test:cover-html:
+    desc: Run tests and open HTML coverage report
+    cmds:
+      - go test -coverprofile=coverage.out ./...
+      - go tool cover -html=coverage.out
+
+  lint:
+    desc: Run golangci-lint
+    deps: [deps]
+    cmds:
+      - golangci-lint run --out-format=colored-line-number
+
+  fmt:
+    desc: Format code
+    cmds:
+      - go fmt ./...
+      - goimports -w .
+
+  clean:
+    desc: Remove build and coverage files
+    cmds:
+      - rm -rf {{.BUILD_DIR}} coverage.out
