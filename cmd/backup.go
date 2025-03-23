@@ -1,10 +1,11 @@
 package cmd
 
 import (
+	"log/slog"
+
 	"github.com/dnagikh/gockuper-cli/internal/backup"
 	"github.com/dnagikh/gockuper-cli/internal/logger"
 	"github.com/spf13/cobra"
-	"log/slog"
 )
 
 var backupCmd = &cobra.Command{

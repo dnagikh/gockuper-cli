@@ -3,10 +3,11 @@ package storage
 import (
 	"bytes"
 	"fmt"
-	"github.com/spf13/viper"
 	"io"
 	"os"
 	"path/filepath"
+
+	"github.com/spf13/viper"
 )
 
 type File struct{}

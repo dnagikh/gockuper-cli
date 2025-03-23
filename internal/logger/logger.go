@@ -2,11 +2,12 @@ package logger
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
-	"gopkg.in/natefinch/lumberjack.v2"
 	"log/slog"
 	"os"
 	"path/filepath"
+
+	"github.com/spf13/viper"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 var Log *slog.Logger

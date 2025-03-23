@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log"
+
 	"github.com/dnagikh/gockuper-cli/cmd"
 	"github.com/dnagikh/gockuper-cli/config"
 	"github.com/dnagikh/gockuper-cli/internal/logger"
-	"log"
 )
 
 func main() {

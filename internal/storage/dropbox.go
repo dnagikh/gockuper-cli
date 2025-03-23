@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/dnagikh/gockuper-cli/internal/auth"
-	"github.com/dnagikh/gockuper-cli/internal/logger"
-	"github.com/spf13/viper"
 	"io"
 	"log/slog"
 	"net/http"
 	"time"
+
+	"github.com/dnagikh/gockuper-cli/internal/auth"
+	"github.com/dnagikh/gockuper-cli/internal/logger"
+	"github.com/spf13/viper"
 )
 
 var (

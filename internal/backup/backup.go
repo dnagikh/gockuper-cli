@@ -2,14 +2,15 @@ package backup
 
 import (
 	"fmt"
+	"log/slog"
+	"sort"
+	"time"
+
 	"github.com/dnagikh/gockuper-cli/internal/compress"
 	"github.com/dnagikh/gockuper-cli/internal/database"
 	"github.com/dnagikh/gockuper-cli/internal/logger"
 	"github.com/dnagikh/gockuper-cli/internal/storage"
 	"github.com/spf13/viper"
-	"log/slog"
-	"sort"
-	"time"
 )
 
 func CreateBackup() error {

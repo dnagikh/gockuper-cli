@@ -2,8 +2,9 @@ package database
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"io"
+
+	"github.com/spf13/viper"
 )
 
 type Database interface {

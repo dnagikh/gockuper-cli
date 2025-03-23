@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
-	"github.com/spf13/viper"
 	"io"
 	"os"
 	"os/exec"
 	"strings"
+
+	_ "github.com/lib/pq"
+	"github.com/spf13/viper"
 )
 
 type PostgresDB struct{}

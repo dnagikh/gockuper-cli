@@ -2,11 +2,12 @@ package storage
 
 import (
 	"fmt"
-	"github.com/dnagikh/gockuper-cli/internal/auth"
-	"github.com/spf13/viper"
 	"io"
 	"regexp"
 	"time"
+
+	"github.com/dnagikh/gockuper-cli/internal/auth"
+	"github.com/spf13/viper"
 )
 
 type Storage interface {

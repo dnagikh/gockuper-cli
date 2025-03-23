@@ -2,14 +2,15 @@ package cmd
 
 import (
 	"context"
-	"github.com/dnagikh/gockuper-cli/internal/auth"
-	"github.com/dnagikh/gockuper-cli/internal/logger"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/dnagikh/gockuper-cli/internal/auth"
+	"github.com/dnagikh/gockuper-cli/internal/logger"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var daemonCmd = &cobra.Command{

@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/dnagikh/gockuper-cli/internal/logger"
-	"github.com/spf13/viper"
 	"io"
 	"log/slog"
 	"net/http"
@@ -13,6 +11,9 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/dnagikh/gockuper-cli/internal/logger"
+	"github.com/spf13/viper"
 )
 
 var tokenFileDefaultPath = "./token.json"
